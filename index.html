@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="app.js" defer></script>
+    <script src="script.js"></script>
+    <script src="data.js"></script>
+    <title>Document</title>
+    <style>
+        .task{
+            padding: 5px;
+            margin: 5px;
+        }
+        .task--completed{
+            background-color: rgb(20, 175, 72);
+        }
+        .task--completed label{
+            text-decoration: line-through;
+        }
+        #tasks{
+            max-width: fit-content;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="text" id="add-task-input" name="add-task" placeholder="Add task...">
+        <input id="add-task" type="submit" value="submit">
+    </form>
+
+    <div id="filter-buttons">
+        <a href="#" data-filter="active">Active</a>
+        <a href="#" data-filter="completed">Completed</a>
+        <a href="#" data-filter="all">All</a>
+    </div>
+
+    <ul id="tasks">
+        
+    </ul>
+    <script>
+        init()
+
+        document.getElementById('add-task').addEventListener('click', (event) => {
+            event.preventDefault()
+            const todoItemData = {
+                name: document.getElementById('add-task-input').value,
+                active: true,
+                id: Date.now(),
+            }
+            
+            document.getElementById('add-task-input').value = ''
+            addTodo(todoItemData)
+        })
+
+        document.getElementById('filter-buttons').addEventListener('click', (event) => {
+            event.preventDefault()
+            const filter = event.target.getAttribute('data-filter')
+        
+
+            switch (filter){
+                case 'active':
+                    tasks.map((task) => {
+                        let taskElement = document.getElementById(`task-${task.id}`)
+                        if(task.active){
+                            taskElement.classList.remove('hidden')
+                        }else{
+                            taskElement.classList.add('hidden')
+                        }
+                    })
+                break
+                case 'completed':
+                    tasks.map((task) => {
+                        let taskElement = document.getElementById(`task-${task.id}`)
+                        if(task.active){
+                            taskElement.classList.add('hidden')
+                        }else{
+                            taskElement.classList.remove('hidden')
+                        }
+                    })
+                break
+                case 'all':
+                    tasks.map((task) => {
+                        let taskElement = document.getElementById(`task-${task.id}`)
+                        taskElement.classList.remove('hidden')
+                    })
+                break
+            }
+        })
+    </script>
+</body>
+</html>
